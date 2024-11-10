@@ -1,3 +1,5 @@
+import React from 'react';
+import Counter from './components/Counter';
 import UserProfile from './components/UserProfile';
 import Header from './components/Header';
 import MainContent from './components/MainContent';
@@ -25,6 +27,10 @@ function App() {
             {/* Existing components like <Header />, <MainContent />, <Footer /> */}
             <UserProfile name="Alice" age="25" bio="Loves hiking and photography" />
         </>
+      <div>
+        <h1>Simple Counter App</h1>
+        <Counter />  {/* Step 2: Include the Counter component here */}
+      </div>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
