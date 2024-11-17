@@ -45,7 +45,20 @@ const useRecipeStore = create((set) => ({
       return { recommendations: recommended };
     }),
 }));
+ // Search functionality
+  setSearchTerm: (term) =>
+    set((state) => {
+      const filtered = state.recipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(term.toLowerCase())
+      );
+      return {
+        searchTerm: term,
+        filteredRecipes: filtered,
+      };
+    }),
+}));
+
 
 export default useRecipeStore;
 
-export default useRecipeStore;
+
