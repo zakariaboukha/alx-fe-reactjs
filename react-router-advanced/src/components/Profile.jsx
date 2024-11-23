@@ -1,5 +1,7 @@
 // src/pages/Profile.jsx
-import { Outlet, Link } from "react-router-dom"; // Import Outlet for nested routes
+import { Routes, Route, Outlet, Link } from "react-router-dom"; // Import Routes, Route, Outlet, and Link
+import ProfileDetails from "./ProfileDetails"; // Import ProfileDetails component
+import ProfileSettings from "./ProfileSettings"; // Import ProfileSettings component
 
 const Profile = () => (
   <div>
@@ -9,7 +11,12 @@ const Profile = () => (
       <Link to="settings">Profile Settings</Link>
     </nav>
     <hr />
-    {/* Outlet renders the nested routes here */}
+    {/* Define nested routes directly here */}
+    <Routes>
+      <Route path="details" element={<ProfileDetails />} />
+      <Route path="settings" element={<ProfileSettings />} />
+    </Routes>
+    {/* This will render the nested components based on the route */}
     <Outlet />
   </div>
 );
