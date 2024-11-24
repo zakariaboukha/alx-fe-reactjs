@@ -1,45 +1,66 @@
-// src/TodoList.js
+// src/TodoList.jsx
 import React, { useState } from 'react';
-import TodoItem from './TodoItem';  // Import the TodoItem component
-import AddTodoForm from './AddTodoForm';  // Import the AddTodoForm component
+
+const initialTodos = [
+  { id: 1, text: 'Learn React', completed: false },
+  { id: 2, text: 'Build a Todo List', completed: false },
+  { id: 3, text: 'Learn Testing', completed: false }
+];
 
 const TodoList = () => {
-  // Initializing the state with a few demo todos
-  const [todos, setTodos] = useState([
-    { id: 1, text: 'Learn React', completed: false },
-    { id: 2, text: 'Write Tests', completed: false },
-  ]);
+  const [todos, setTodos] = useState(initialTodos);
 
-  // Add a new todo
-  const handleAddTodo = (newTodo) => {
-    setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
+  const addTodo = (text) => {
+    setTodos([...todos, { id: Date.now(), text, completed: false }]);
   };
 
-  // Toggle the completion status of a todo
-  const handleToggleTodo = (id) => {
+  const toggleTodo = (id) => {
     setTodos(todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo));
   };
 
-  // Delete a todo
-  const handleDeleteTodo = (id) => {
+  const deleteTodo = (id) => {
     setTodos(todos.filter(todo => todo.id !== id));
   };
 
   return (
     <div>
       <h1>Todo List</h1>
-      <AddTodoForm onAddTodo={handleAddTodo} /> {/* Add Todo Form */}
       <ul>
         {todos.map(todo => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onToggleTodo={handleToggleTodo}
-            onDeleteTodo={handleDeleteTodo}
-          />
+          <li key={todo.id}
+              onClick={() => toggleTodo(todo.id)}
+              style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+            {todo.text}
+            <button onClick={(e) => { e.stopPropagation(); deleteTodo(todo.id); }}>Delete</button>
+          </li>
         ))}
       </ul>
+      <AddTodoForm addTodo={addTodo} />
     </div>
+  );
+};
+
+const AddTodoForm = ({ addTodo }) => {
+  const [text, setText] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (text.trim()) {
+      addTodo(text);
+      setText('');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Add Todo"
+      />
+      <button type="submit">Add Todo</button>
+    </form>
   );
 };
 
