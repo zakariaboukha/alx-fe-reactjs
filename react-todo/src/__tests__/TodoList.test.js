@@ -1,6 +1,7 @@
 // src/__tests__/TodoList.test.js
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import TodoList from '../TodoList';
 
 test('renders TodoList component correctly', () => {
@@ -31,5 +32,5 @@ test('toggles todo item completed state', () => {
 test('deletes a todo item', () => {
   const { getByText } = render(<TodoList />);
   fireEvent.click(getByText('Delete', { selector: 'button' }));
-  expect(getByText('Learn React')).not.toBeInTheDocument();
+  expect(() => getByText('Learn React')).toThrow();
 });
