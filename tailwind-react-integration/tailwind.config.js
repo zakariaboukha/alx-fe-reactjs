@@ -1,10 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"], // Specify paths to all templates
-  darkMode: "media", // Use 'media' for system dark mode, or 'class' for manual toggle
+  content: ["./src/**/*.{js,jsx,ts,tsx}"], // Replace 'purge'
+  darkMode: "media", // Or 'class' for manual dark mode toggle
   theme: {
-    extend: {}, // Extend Tailwind's default theme here
+    extend: {
+      // Add customizations or extend default variants here
+    },
   },
-  plugins: [], // Add any plugins if needed
+  plugins: [], // Add plugins if needed
 };
-
