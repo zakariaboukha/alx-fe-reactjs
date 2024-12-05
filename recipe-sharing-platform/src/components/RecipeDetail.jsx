@@ -1,9 +1,19 @@
-import React from "react";
+
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const RecipeDetail = ({ recipes }) => {
   const { id } = useParams(); // Extract the recipe ID from the URL
   const recipe = recipes.find((recipe) => recipe.id === parseInt(id));
+  useEffect(() => {
+    fetch("/src/data.json")
+      .then((response) => response.json())
+      .then((data) => {
+        const selectedRecipe = data.find((item) => item.id === parseInt(id));
+        setRecipe(selectedRecipe);
+      })
+      .catch((error) => console.error("Error loading recipe details:", error));
+  }, [id]);
 
   if (!recipe) {
     return (
