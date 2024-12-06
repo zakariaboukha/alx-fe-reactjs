@@ -6,43 +6,55 @@ const AddRecipeForm = () => {
     ingredients: "",
     steps: "",
   });
-  const [error, setError] = useState("");
+
+  const [errors, setErrors] = useState({}); // Track errors
+
+  // Validation Function
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.title.trim()) newErrors.title = "Title is required.";
+    if (!formData.ingredients.trim())
+      newErrors.ingredients = "Ingredients are required.";
+    else if (formData.ingredients.split(",").length < 2)
+      newErrors.ingredients = "Please add at least two ingredients.";
+    if (!formData.steps.trim()) newErrors.steps = "Steps are required.";
+
+    return newErrors;
+  };
 
   // Handle input changes
   const handleChange = (e) => {
-    const { name, value } = e.target; // Access `target.value` here
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value, // Update the specific field
+      [name]: value,
     }));
   };
 
   // Handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    const { title, ingredients, steps } = formData;
+    e.preventDefault();
 
-    // Validate fields
-    if (!title || !ingredients || !steps) {
-      setError("All fields are required!");
-      return;
+    const validationErrors = validate(); // Perform validation
+    setErrors(validationErrors); // Set validation errors
+
+    // Proceed only if there are no errors
+    if (Object.keys(validationErrors).length === 0) {
+      console.log("New Recipe Submitted:", formData);
+
+      // Clear form after submission
+      setFormData({
+        title: "",
+        ingredients: "",
+        steps: "",
+      });
+      setErrors({});
     }
-
-    console.log("New Recipe Submitted:", formData);
-
-    // Clear the form and error message after submission
-    setError("");
-    setFormData({
-      title: "",
-      ingredients: "",
-      steps: "",
-    });
   };
 
   return (
     <div className="max-w-4xl mx-auto mt-6 p-6 bg-white rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold mb-4">Add New Recipe</h1>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
       <form onSubmit={handleSubmit}>
         {/* Recipe Title */}
         <div className="mb-4">
@@ -53,24 +65,30 @@ const AddRecipeForm = () => {
             id="title"
             type="text"
             name="title"
-            value={formData.title} // Bind state to input
-            onChange={handleChange} // Handle change events
+            value={formData.title}
+            onChange={handleChange}
             className="w-full p-2 border rounded"
           />
+          {errors.title && (
+            <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+          )}
         </div>
 
         {/* Ingredients */}
         <div className="mb-4">
           <label className="block text-gray-700 mb-2" htmlFor="ingredients">
-            Ingredients
+            Ingredients (comma-separated)
           </label>
           <textarea
             id="ingredients"
             name="ingredients"
-            value={formData.ingredients} // Bind state to input
-            onChange={handleChange} // Handle change events
+            value={formData.ingredients}
+            onChange={handleChange}
             className="w-full p-2 border rounded"
           ></textarea>
+          {errors.ingredients && (
+            <p className="text-red-500 text-sm mt-1">{errors.ingredients}</p>
+          )}
         </div>
 
         {/* Preparation Steps */}
@@ -81,10 +99,13 @@ const AddRecipeForm = () => {
           <textarea
             id="steps"
             name="steps"
-            value={formData.steps} // Bind state to input
-            onChange={handleChange} // Handle change events
+            value={formData.steps}
+            onChange={handleChange}
             className="w-full p-2 border rounded"
           ></textarea>
+          {errors.steps && (
+            <p className="text-red-500 text-sm mt-1">{errors.steps}</p>
+          )}
         </div>
 
         {/* Submit Button */}
