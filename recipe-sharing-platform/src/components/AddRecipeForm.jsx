@@ -24,7 +24,7 @@ const AddRecipeForm = () => {
 
   // Handle input changes
   const handleChange = (e) => {
-    const { name, value } = e.target; // Explicit use of `target.value`
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -35,8 +35,8 @@ const AddRecipeForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const validationErrors = validate(); // Perform validation
-    setErrors(validationErrors); // Set validation errors
+    const validationErrors = validate();
+    setErrors(validationErrors);
 
     // Proceed only if there are no errors
     if (Object.keys(validationErrors).length === 0) {
@@ -57,8 +57,11 @@ const AddRecipeForm = () => {
       <h1 className="text-2xl font-bold mb-4">Add New Recipe</h1>
       <form onSubmit={handleSubmit}>
         {/* Recipe Title */}
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="title">
+        <div className="mb-4 md:flex md:items-center">
+          <label
+            className="block text-gray-700 mb-2 md:mb-0 md:w-1/4"
+            htmlFor="title"
+          >
             Recipe Title
           </label>
           <input
@@ -66,8 +69,8 @@ const AddRecipeForm = () => {
             type="text"
             name="title"
             value={formData.title}
-            onChange={handleChange} // Explicitly uses `target.value` via `handleChange`
-            className="w-full p-2 border rounded"
+            onChange={handleChange}
+            className="w-full md:w-3/4 p-2 border rounded"
           />
           {errors.title && (
             <p className="text-red-500 text-sm mt-1">{errors.title}</p>
@@ -75,16 +78,19 @@ const AddRecipeForm = () => {
         </div>
 
         {/* Ingredients */}
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="ingredients">
+        <div className="mb-4 md:flex md:items-center">
+          <label
+            className="block text-gray-700 mb-2 md:mb-0 md:w-1/4"
+            htmlFor="ingredients"
+          >
             Ingredients (comma-separated)
           </label>
           <textarea
             id="ingredients"
             name="ingredients"
             value={formData.ingredients}
-            onChange={handleChange} // Explicitly uses `target.value` via `handleChange`
-            className="w-full p-2 border rounded"
+            onChange={handleChange}
+            className="w-full md:w-3/4 p-2 border rounded"
           ></textarea>
           {errors.ingredients && (
             <p className="text-red-500 text-sm mt-1">{errors.ingredients}</p>
@@ -92,16 +98,19 @@ const AddRecipeForm = () => {
         </div>
 
         {/* Preparation Steps */}
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="steps">
+        <div className="mb-4 md:flex md:items-center">
+          <label
+            className="block text-gray-700 mb-2 md:mb-0 md:w-1/4"
+            htmlFor="steps"
+          >
             Preparation Steps
           </label>
           <textarea
             id="steps"
             name="steps"
             value={formData.steps}
-            onChange={handleChange} // Explicitly uses `target.value` via `handleChange`
-            className="w-full p-2 border rounded"
+            onChange={handleChange}
+            className="w-full md:w-3/4 p-2 border rounded"
           ></textarea>
           {errors.steps && (
             <p className="text-red-500 text-sm mt-1">{errors.steps}</p>
@@ -109,12 +118,14 @@ const AddRecipeForm = () => {
         </div>
 
         {/* Submit Button */}
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          Submit Recipe
-        </button>
+        <div className="text-center md:text-right">
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            Submit Recipe
+          </button>
+        </div>
       </form>
     </div>
   );
