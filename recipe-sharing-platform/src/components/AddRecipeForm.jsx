@@ -24,7 +24,7 @@ const AddRecipeForm = () => {
 
   // Handle input changes
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target; // Explicit use of `target.value`
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -35,8 +35,8 @@ const AddRecipeForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const validationErrors = validate();
-    setErrors(validationErrors);
+    const validationErrors = validate(); // Perform validation
+    setErrors(validationErrors); // Set validation errors
 
     // Proceed only if there are no errors
     if (Object.keys(validationErrors).length === 0) {
@@ -69,7 +69,7 @@ const AddRecipeForm = () => {
             type="text"
             name="title"
             value={formData.title}
-            onChange={handleChange}
+            onChange={handleChange} // Explicitly uses `target.value` via `handleChange`
             className="w-full md:w-3/4 p-2 border rounded"
           />
           {errors.title && (
@@ -89,7 +89,7 @@ const AddRecipeForm = () => {
             id="ingredients"
             name="ingredients"
             value={formData.ingredients}
-            onChange={handleChange}
+            onChange={handleChange} // Explicitly uses `target.value` via `handleChange`
             className="w-full md:w-3/4 p-2 border rounded"
           ></textarea>
           {errors.ingredients && (
@@ -109,7 +109,7 @@ const AddRecipeForm = () => {
             id="steps"
             name="steps"
             value={formData.steps}
-            onChange={handleChange}
+            onChange={handleChange} // Explicitly uses `target.value` via `handleChange`
             className="w-full md:w-3/4 p-2 border rounded"
           ></textarea>
           {errors.steps && (
@@ -118,10 +118,11 @@ const AddRecipeForm = () => {
         </div>
 
         {/* Submit Button */}
-        <div className="text-center md:text-right">
+        <div className="md:flex md:items-center">
+          <div className="md:w-1/4"></div>
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 md:w-3/4"
           >
             Submit Recipe
           </button>
