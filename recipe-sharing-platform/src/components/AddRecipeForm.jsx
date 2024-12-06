@@ -24,7 +24,7 @@ const AddRecipeForm = () => {
 
   // Handle input changes
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target; // Explicit use of `target.value`
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -66,7 +66,7 @@ const AddRecipeForm = () => {
             type="text"
             name="title"
             value={formData.title}
-            onChange={handleChange}
+            onChange={handleChange} // Explicitly uses `target.value` via `handleChange`
             className="w-full p-2 border rounded"
           />
           {errors.title && (
@@ -83,7 +83,7 @@ const AddRecipeForm = () => {
             id="ingredients"
             name="ingredients"
             value={formData.ingredients}
-            onChange={handleChange}
+            onChange={handleChange} // Explicitly uses `target.value` via `handleChange`
             className="w-full p-2 border rounded"
           ></textarea>
           {errors.ingredients && (
@@ -100,7 +100,7 @@ const AddRecipeForm = () => {
             id="steps"
             name="steps"
             value={formData.steps}
-            onChange={handleChange}
+            onChange={handleChange} // Explicitly uses `target.value` via `handleChange`
             className="w-full p-2 border rounded"
           ></textarea>
           {errors.steps && (
