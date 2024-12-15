@@ -1,32 +1,40 @@
 import axios from 'axios';
 
+const BASE_URL = 'https://api.github.com/users';
+const SEARCH_URL = 'https://api.github.com/search/users?q';
+
 /**
- * Function to search GitHub users based on criteria.
- * @param {Object} filters - Filters for the search.
- * @param {string} filters.username - GitHub username to search for.
- * @param {string} filters.location - Location to filter by.
- * @param {number} filters.minRepos - Minimum number of repositories to filter by.
- * @returns {Promise<Array>} - A list of GitHub users matching the criteria.
+ * Fetches user data by username.
+ * @param {string} username - The GitHub username to fetch data for.
+ * @returns {Object} - The user's GitHub data.
  */
-export const searchGitHubUsers = async ({ username, location, minRepos }) => {
+export const fetchUserData = async (username) => {
   try {
-    // Build the query string
-    const queryParts = [];
-    if (username) queryParts.push(`user:${username}`);
-    if (location) queryParts.push(`location:${location}`);
-    if (minRepos) queryParts.push(`repos:>=${minRepos}`);
-    const query = queryParts.join(' ');
-
-    // API endpoint for GitHub user search
-    const url = `https://api.github.com/search/users?q=${query}`;
-
-    // Fetch data from the GitHub API
-    const response = await axios.get(url);
-
-    // Return the list of users
-    return response.data.items || [];
+    const response = await axios.get(`${BASE_URL}/${username}`);
+    return response.data;
   } catch (error) {
-    console.error('Error fetching GitHub users:', error);
-    throw new Error('Unable to fetch GitHub users. Please try again.');
+    throw new Error('User not found');
+  }
+};
+
+/**
+ * Searches GitHub users based on advanced criteria.
+ * @param {string} username - The GitHub username to search for (optional).
+ * @param {string} location - The location to filter users by (optional).
+ * @param {number} minRepos - The minimum number of repositories (optional).
+ * @returns {Array} - A list of GitHub users matching the criteria.
+ */
+export const searchUsers = async ({ username = '', location = '', minRepos = '' }) => {
+  const queryParts = [];
+  if (username) queryParts.push(`user:${username}`);
+  if (location) queryParts.push(`location:${location}`);
+  if (minRepos) queryParts.push(`repos:>=${minRepos}`);
+
+  const query = queryParts.join(' ');
+  try {
+    const response = await axios.get(`${SEARCH_URL}${query}`);
+    return response.data.items;
+  } catch (error) {
+    throw new Error('Failed to fetch search results');
   }
 };
