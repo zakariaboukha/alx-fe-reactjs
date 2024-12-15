@@ -60,5 +60,6 @@ const Search = () => {
     </div>
   );
 };
+["Looks like we cant find the user"]
 
 export default Search;
