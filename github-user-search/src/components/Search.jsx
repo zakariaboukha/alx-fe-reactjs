@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [location, setLocation] = useState('');
@@ -9,6 +10,21 @@ const Search = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [page, setPage] = useState(1); // Added state for pagination
+
+  const fetchUserData = async (username) => {
+    setLoading(true);
+    setError('');
+    setUserData(null);
+
+    try {
+      const response = await axios.get(`https://api.github.com/users/${username}`);
+      setUserData(response.data);
+    } catch (err) {
+      setError(["Looks like we cant find the user"]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
